@@ -1,5 +1,5 @@
 // ضع رابط Web App الخاص بـ Google Apps Script في المتغير أدناه
-const API_URL = "ضع رابط Web App الخاص بـ Google Apps Script هنا";
+const API_URL = "https://script.google.com/macros/s/AKfycbwuXFS8HY7Vki85HFbCWJthHX6dPiZC7BydcNTWS3bvnAQ9syJtpUBAfdwK5flwMt0aBg/exec";
 
 async function apiCall(action, payload = {}, method = "POST") {
   try {
