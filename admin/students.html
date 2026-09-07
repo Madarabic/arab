@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MADARABIC - إدارة الطلاب</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style> body { font-family: 'IBM Plex Sans Arabic', sans-serif; background-color: #FAF8F1; } </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+  <aside class="w-64 bg-[#022C22] text-white flex flex-col justify-between p-4">
+    <div>
+      <div class="text-2xl font-bold text-[#C8A951] mb-8 text-center">MADARABIC</div>
+      <nav class="space-y-2">
+        <a href="index.html" class="block px-4 py-2.5 rounded hover:bg-[#064E3B]">الرئيسية</a>
+        <a href="students.html" class="block px-4 py-2.5 rounded bg-[#006C35]">الطلاب</a>
+        <a href="courses.html" class="block px-4 py-2.5 rounded hover:bg-[#064E3B]">الدورات</a>
+      </nav>
+    </div>
+    <button onclick="logout()" class="w-full py-2 bg-red-700 rounded font-bold text-sm">تسجيل الخروج</button>
+  </aside>
+
+  <main class="flex-1 p-8 overflow-y-auto">
+    <h1 class="text-2xl font-bold text-[#064E3B] mb-6">سجل الطلاب المسجلين</h1>
+
+    <div class="bg-white rounded-xl border border-[#C8A951]/20 shadow-sm overflow-hidden">
+      <table class="w-full text-right text-sm">
+        <thead class="bg-[#064E3B] text-white">
+          <tr>
+            <th class="p-3">رمز الطالب</th>
+            <th class="p-3">الاسم بالعربية</th>
+            <th class="p-3">البريد الإلكتروني</th>
+            <th class="p-3">المستوى</th>
+            <th class="p-3">الدولة</th>
+          </tr>
+        </thead>
+        <tbody id="studentsTable"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="../assets/js/config.js"></script>
+  <script>
+    async function loadStudents() {
+      const res = await apiCall("getStudents", {}, "GET");
+      if (res.success) {
+        document.getElementById("studentsTable").innerHTML = res.data.map(s => `
+          <tr class="border-b hover:bg-gray-50">
+            <td class="p-3 font-mono text-xs">${s.studentId}</td>
+            <td class="p-3 font-bold">${s.arabicName}</td>
+            <td class="p-3">${s.email}</td>
+            <td class="p-3"><span class="px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded">${s.level}</span></td>
+            <td class="p-3">${s.country}</td>
+          </tr>
+        `).join('');
+      }
+    }
+    function logout() { localStorage.clear(); window.location.href = "../login.html"; }
+    loadStudents();
+  </script>
+</body>
+</html>
